@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\http\Request;/* importacion requerida para el deslogueo */
 
 class LoginController extends Controller
 {
@@ -20,13 +21,20 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
-
+/* funcion del deslogueo */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        return $this->LoggedOut($request) ?: redirect('/login');
+    }
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = "/products";
+    /* redireccion al logueo */
 
     /**
      * Create a new controller instance.
